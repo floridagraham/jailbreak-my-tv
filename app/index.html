@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edison Home</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="stage">
+  <img id="wallStill" src="wallpaper-still.jpg" alt="" draggable="false">
+  <video id="wall" muted loop playsinline hidden></video>
+  <div id="fader"></div>
+  <div id="sky"></div>
+  <div id="comet"></div>
+  <canvas id="liveEd" width="330" height="330"></canvas>
+  <div id="side"></div>
+  <div class="elbow" id="elbowB"></div>
+
+  <main id="view">
+    <div id="grid"></div>
+    <div id="empty" hidden>NO APPS TO SHOW. OPEN SETTINGS TO BRING SOME BACK, OR RUN THE INSTALLER AGAIN.</div>
+  </main>
+
+  <footer id="bottom">
+    <div id="brand" data-nav><div id="prism">
+      <div class="face" id="faceLogo"><span>E</span><span>D</span><span>I</span><span>S</span><span><canvas id="edisonO" width="96" height="96"></canvas></span><span>N</span></div>
+      <div class="face" id="faceHey">HEY EDISON</div>
+      <div class="face" id="faceSite">HEYEDISON.AI</div>
+      <div class="face" id="faceServe">AT YOUR SERVICE</div>
+    </div></div>
+    <div id="fill"><i></i><i></i><i></i><i></i><i></i></div>
+    <div id="name"></div>
+    <div id="hiddenCount"></div>
+    <div id="count"></div>
+    <div class="key" id="settingsKey" data-nav aria-label="Settings"><svg viewBox="0 0 32 32" width="34" height="34" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M16 6a10 10 0 1 0 0 20a10 10 0 1 0 0-20zm0 6a4 4 0 1 1 0 8a4 4 0 1 1 0-8z"/>
+      <rect x="14" y="2" width="4" height="6"/><rect x="14" y="2" width="4" height="6" transform="rotate(45 16 16)"/><rect x="14" y="2" width="4" height="6" transform="rotate(90 16 16)"/><rect x="14" y="2" width="4" height="6" transform="rotate(135 16 16)"/>
+      <rect x="14" y="2" width="4" height="6" transform="rotate(180 16 16)"/><rect x="14" y="2" width="4" height="6" transform="rotate(225 16 16)"/><rect x="14" y="2" width="4" height="6" transform="rotate(270 16 16)"/><rect x="14" y="2" width="4" height="6" transform="rotate(315 16 16)"/>
+    </svg></div>
+    <div id="weather"></div>
+    <div id="clock"><div id="time"></div><div id="date"></div></div>
+  </footer>
+
+  <div id="arrangeBar" hidden>
+    <div id="arrangeHint">ARROWS MOVE &middot; OK DROPS &middot; BACK CANCELS &middot; GO PAST THE TOP OR BOTTOM ROW FOR HIDE</div>
+    <div class="key" id="hideKey" data-nav>HIDE THIS APP</div>
+  </div>
+
+  <div id="scrim" hidden></div>
+  <section id="panel" hidden>
+    <h2>SETTINGS</h2>
+    <h3>HIDDEN APPS</h3>
+    <div id="restoreList"></div>
+    <div id="noneHidden">NOTHING IS HIDDEN.</div>
+    <div id="cityBox" hidden><label for="cityInput">TYPE YOUR CITY, THEN PRESS ENTER. BACK CANCELS.</label><input id="cityInput" type="text" autocomplete="off" spellcheck="false"></div>
+    <div id="keys">
+      <div class="key" id="closeKey" data-nav>CLOSE</div>
+      <div class="key" id="voiceKey" data-nav></div>
+      <div class="key" id="paletteKey" data-nav></div>
+      <div class="key" id="iconsKey" data-nav></div>
+      <div class="key" id="layoutKey" data-nav></div>
+      <div class="key" id="backKey" data-nav></div>
+      <div class="key" id="weatherKey" data-nav></div>
+    </div>
+    <h3>WHAT THE TV TOLD ME</h3>
+    <div id="diag"></div>
+  </section>
+
+  <div id="sparks"></div>
+  <div id="ring"></div>
+  <div id="toast" role="alert" hidden></div>
+</div>
+<script src="edison-icon-live.js"></script>
+<script src="live-edison.js"></script>
+<script src="data/apps.js"></script>
+<script src="data/hide.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "id": "com.heyedison.home",
+  "title": "Edison Home",
+  "type": "web",
+  "main": "index.html",
+  "version": "1.0.0",
+  "vendor": "Edison",
+  "icon": "icons/icon.png",
+  "largeIcon": "icons/largeIcon.png",
+  "resolution": "1920x1080",
+  "bgColor": "#0B0820",
+  "splashBackground": "icons/splash.png",
+  "disableBackHistoryAPI": true
+}

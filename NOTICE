@@ -1,0 +1,19 @@
+The Edison name and character are not covered by the MIT License.
+
+Copyright (c) 2026 Marketing Savvy LLC. All rights reserved for:
+- the Edison name, wordmark and character
+- app/live-edison.js and app/edison-icon-live.js, which draw him
+- app/voice/ (his recorded lines)
+- app/backs/, app/icons/ and app/wallpaper-still.jpg (pictures and video)
+
+You may install and run these as part of Edison Home on your own TV. If you
+build your own version from this code, replace them and give it your own name.
+
+Third parties
+- Antonio font: SIL Open Font License, see app/fonts/OFL.txt.
+- Edison's lines were recorded with the Kokoro text to speech model (Apache 2.0).
+- three.js (MIT) was used to render the backgrounds; it is not part of the app.
+- Weather comes from Open-Meteo (open-meteo.com) when you turn it on.
+
+LG and webOS are trademarks of LG Electronics. App names on your TV belong to
+their owners. Edison Home is not made by or connected with LG or any of them.

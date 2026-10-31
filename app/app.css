@@ -1,0 +1,175 @@
+/* Edison Home. The whole look lives in this one file: to change it, replace this stylesheet and keep the ids and classes.
+   app.js reads --cols, --focus-scale and --ring-pad, and gives tiles with no color of their own --c1 to --c8.
+   Only transform and opacity may animate, plus the highlight box's color as it glides. Nothing pulses. */
+@font-face { font-family: Antonio; src: url(fonts/Antonio-wght.ttf) format('truetype'); font-weight: 100 700; font-display: block; }
+
+:root {
+  --ground: #0B0820; --panel: #170D30; --key: #22174F; --deep: #2B1B6B; --ink: #0B0820; --text: #E6E0FF; --soft: #C9BCFF;
+  --violet: #9C3DFF; --plum: #7A2FB0; --amber: #E8A23C; --cyan: #33D6FF; --bright: #FFFFFF;
+  --c1: #C8641E; --c2: #D49A2E; --c3: #5F93BF; --c4: #B5483E; --c5: #A8823C;
+  --ring: var(--c3); --ring-width: 6px; --focus-fill: rgba(34, 23, 79, .7); --ring-shadow: rgba(4, 2, 10, .85); --scrim: rgba(11, 8, 32, .82);
+  --glint: rgba(255, 244, 214, .75); --flow: rgba(247, 244, 255, .4); --comet: rgba(201, 188, 255, .9); --comet-head: #F7F4FF;
+  --sky-morning: rgba(255, 176, 32, .08); --sky-day: rgba(51, 214, 255, .05); --sky-evening: rgba(255, 61, 153, .10); --sky-night: rgba(43, 27, 107, .28);
+  --cols: 5; --focus-scale: 1; --ring-pad: 10; --tile-h: 56px; --tile-gap: 22px; --row-gap: 26px; --rail: 14px;
+}
+:root[data-palette=eye] { --c1: #B24942; --c2: #BB783B; --c3: #5177A9; --c4: #7AB347; --c5: #844184; } /* sampled from the lit balls of his eye in the wallpaper */
+:root[data-palette=gunmetal] { --c1: #B9743A; --c2: #5B86A8; --c3: #3F9A9A; --c4: #C9A15A; --c5: #7A78C2; }
+:root[data-palette=forge] { --c1: #C9822B; --c2: #A9661F; --c3: #D9A045; --c4: #B5532A; --c5: #C2702E; }
+:root[data-palette=navy] { --c1: #5C82B8; --c2: #B8964F; --c3: #4E93B0; --c4: #6F93C9; --c5: #7F9BC4; }
+:root[data-palette=synthwave] { --c1: #E0409A; --c2: #8A5CE6; --c3: #2EC4D6; --c4: #F0803C; --c5: #B84FC9; }
+:root[data-palette=neon] { --c1: #FF3D99; --c2: #B46BFF; --c3: #33D6FF; --c4: #B6FF3B; --c5: #FFB020; }
+:root[data-palette=glass] { --c1: rgba(190, 215, 255, .24); --c2: rgba(190, 215, 255, .16); --c3: rgba(190, 215, 255, .2); --c4: rgba(190, 215, 255, .28); --c5: rgba(190, 215, 255, .12);
+  --ink: #F2F7FF; --word: #E6EFFF; --logo-filter: invert(1); --edge: rgba(235, 245, 255, .5); --ring-glass: #EAF2FF; }
+:root[data-palette=edison] { --c1: #C9709C; --c2: #9A83D1; --c3: #66A9C4; --c4: #9DB56F; --c5: #C9A05A; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--ground); }
+[hidden] { display: none !important; }
+#stage {
+  position: fixed; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden;
+  background: var(--ground); color: var(--text); font: 700 36px/1.1 Antonio, 'Arial Narrow', sans-serif;
+  text-transform: uppercase; user-select: none; cursor: default;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes slide { from { opacity: 0; transform: translateX(90px); } }
+@keyframes fade { from { opacity: 0; } }
+
+/* the moving wallpaper, and the frame: open at the top so the universe flows through, with a skinny side rail flowing into the full bottom rail */
+#wall, #wallStill { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; background: var(--ground); }
+.elbow { position: absolute; left: 72px; width: 178px; height: 240px; border-style: solid; border-width: 0; border-left-width: var(--rail); }
+#fader { position: absolute; inset: 0; background: var(--ground); opacity: 0; pointer-events: none; transition: opacity 1.2s ease-in-out; }
+#fader.dark { opacity: 1; }
+#sky { position: absolute; inset: 0; pointer-events: none; }
+#sky[data-part=morning] { background: var(--sky-morning); }
+#sky[data-part=day] { background: var(--sky-day); }
+#sky[data-part=evening] { background: var(--sky-evening); }
+#sky[data-part=night] { background: var(--sky-night); }
+#liveEd { position: absolute; left: calc(var(--ed-x, 980px) - 165px); top: calc(var(--ed-y, 330px) - 165px); width: 330px; height: 330px; pointer-events: none; }
+#comet { position: absolute; left: 0; top: 0; width: 360px; height: 4px; border-radius: 2px; opacity: 0; pointer-events: none; transform-origin: 100% 50%;
+  background: linear-gradient(90deg, transparent, var(--comet)); }
+#comet::after { content: ''; position: absolute; right: -3px; top: -3px; width: 10px; height: 10px; border-radius: 5px; background: var(--comet-head); }
+#elbowB { bottom: 36px; border-color: var(--c2); border-bottom-width: 52px; border-bottom-left-radius: 64px; }
+#side { position: absolute; left: 72px; bottom: 276px; width: var(--rail); height: max(14px, calc(var(--rows, 4) * var(--tile-h) + (var(--rows, 4) - 1) * var(--row-gap) - 128px)); border-radius: 7px 7px 0 0; background: var(--c2); }
+
+/* the opening sequence: the frame sweeps in, then the apps arrive one after another */
+@keyframes sweep { from { transform: scaleX(0); } }
+@keyframes pop { from { transform: scale(.6); } }
+#stage.arrive #bottom { transform-origin: 0 50%; animation: sweep .45s ease-out both; }
+#stage.arrive .elbow, #stage.arrive #side { animation: fade .25s ease-out both; }
+#stage.arrive .tile { animation: fade .25s ease-out both; animation-delay: calc(var(--i) * 22ms + .25s); }
+#stage.arrive .chip { animation: pop .25s ease-out both; animation-delay: calc(var(--i) * 22ms + .25s); }
+#stage.arrive #ring { animation: fade .25s ease-out .7s both; }
+
+/* the apps: a rounded color key holding the logo shape, with the word beside it, in the order you set */
+/* the rows stand on the bottom rail: more rows push the top of the list and the side rail upward, fewer bring them down */
+#view { position: absolute; left: 82px; right: 44px; bottom: 120px; height: calc(var(--rows, 4) * var(--tile-h) + (var(--rows, 4) - 1) * var(--row-gap) + 56px); overflow: hidden; padding: 28px; }
+#grid { display: grid; grid-template-columns: repeat(var(--cols), 1fr); grid-auto-rows: var(--tile-h); gap: var(--row-gap) var(--tile-gap); }
+#empty { padding-top: 90px; text-align: center; font-size: 44px; font-weight: 400; color: var(--soft); }
+.tile { position: relative; display: flex; align-items: center; gap: 24px; min-width: 0; padding-right: 14px;
+  color: var(--word, var(--c)); border-radius: 0 16px 16px 16px; scroll-margin: 28px; transition: transform .1s ease-out; }
+.chip { flex: none; width: 78px; height: 56px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 16px 16px 16px; background: var(--c); color: var(--ink); box-shadow: inset 0 0 0 1px var(--edge, transparent); transform: translate(var(--ex, 0px), var(--ey, 0px)); transition: scale .2s cubic-bezier(.3, 1.3, .5, 1); }
+.chip { position: relative; }
+.glint { position: absolute; left: 0; top: -20px; width: 30px; height: 104px; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--glint), transparent); }
+.focus .chip { scale: 1.1; }
+.focus .label { scale: 1.07; }
+.chip img { flex: none; width: 68px; height: 68px; object-fit: contain; filter: var(--logo-filter, none); }
+.glyph { font-size: 44px; font-weight: 400; }
+.label { min-width: 0; font-size: 34px; font-weight: 400; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transform: translate(calc(var(--ex, 0px) * .6), calc(var(--ey, 0px) * .6)); transform-origin: 0 50%; transition: scale .2s cubic-bezier(.3, 1.3, .5, 1); }
+
+/* where the apps sit, a choice in Settings. Bottom is the plain rules above. */
+html[data-layout=top] #bottom, html[data-layout=top] #arrangeBar { bottom: auto; top: 36px; }
+html[data-layout=top] #elbowB { bottom: auto; top: 36px; border-bottom-width: 0; border-top-width: 52px; border-bottom-left-radius: 0; border-top-left-radius: 64px; }
+html[data-layout=top] #side { bottom: auto; top: 276px; border-radius: 0 0 7px 7px; }
+html[data-layout=top] #view { bottom: auto; top: 90px; }
+html[data-layout=left], html[data-layout=right] { --row-gap: 14px; }
+html[data-layout=left] #view { right: auto; width: calc(var(--cols) * 390px); }
+html[data-layout=right] #view { left: auto; right: 82px; width: calc(var(--cols) * 390px); }
+html[data-layout=right] #bottom, html[data-layout=right] #arrangeBar { left: 72px; right: 258px; flex-direction: row-reverse; }
+html[data-layout=right] #elbowB { left: auto; right: 72px; border-left-width: 0; border-right-width: var(--rail); border-bottom-left-radius: 0; border-bottom-right-radius: 64px; }
+html[data-layout=right] #side { left: auto; right: 72px; }
+html[data-layout=right] #clock { border-radius: 26px 0 0 26px; }
+html[data-layout=right] .face { border-radius: 0; }
+
+/* the big keys, a choice in Settings */
+html[data-icons=large] { --tile-h: 64px; --row-gap: 10px; --tile-gap: 8px; --ring-pad: 4; }
+html[data-icons=large] .tile { background: var(--c); color: var(--ink); border-radius: 0 16px 16px 16px; padding: 0 14px 6px 0; align-items: flex-end; justify-content: space-between; gap: 6px; }
+html[data-icons=large] .chip { background: transparent; box-shadow: none; width: 72px; height: 64px; }
+html[data-icons=large] .chip img { width: 62px; height: 62px; }
+html[data-icons=large] .focus { box-shadow: inset 0 0 0 3px var(--ink); }
+
+/* one highlight only: a box around it in the app's own color */
+.focus { z-index: 2; transform: scale(var(--focus-scale)); background: var(--focus-fill); }
+.row.focus { transform: none; background: var(--deep); }
+.tile.moving { background: var(--deep); color: var(--bright); }
+#ring { position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none; border: var(--ring-width) solid var(--ring-glass, var(--ring));
+  box-shadow: 0 8px 24px 2px var(--ring-shadow); transition: border-color .22s ease-out; }
+#sparks { position: absolute; inset: 0; z-index: 25; pointer-events: none; }
+.spark { position: absolute; left: 0; top: 0; width: 9px; height: 9px; border-radius: 5px; opacity: 0; }
+
+/* the bottom rail: the Edison block, Settings, a few plain boxes, the weather and the clock, all one piece with the corner */
+#bottom, #arrangeBar { position: absolute; left: 258px; right: 72px; bottom: 36px; height: 52px; display: flex; align-items: center; gap: 6px; }
+#bottom > div { height: 52px; display: flex; align-items: center; justify-content: center; color: var(--ink); font-weight: 400; box-shadow: inset 0 0 0 1px var(--edge, transparent); }
+#bottom > #brand { flex: none; width: 210px; box-shadow: none; perspective: 700px; }
+#prism { position: relative; width: 100%; height: 52px; transform-style: preserve-3d; transform: translateZ(-26px) rotateX(var(--rx, 0deg)); }
+.cells { position: absolute; inset: 0; display: flex; }
+.cell { position: relative; flex: 1; height: 52px; transform-style: preserve-3d; transform: translateZ(-26px) rotateX(var(--rx, 0deg)); }
+.cell i { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; backface-visibility: hidden; color: var(--ink); font-size: 34px; font-style: normal; font-weight: 400; transform: rotateX(calc(var(--n) * 90deg)) translateZ(26px); background: var(--f); }
+.cell img { width: 32px; height: 32px; border-radius: 16px; }
+.face { position: absolute; left: 0; top: 0; width: 210px; height: 52px; display: flex; align-items: center; justify-content: center; backface-visibility: hidden;
+  background: var(--c2); color: var(--ink); font-size: 30px; font-weight: 400; letter-spacing: 3px; white-space: nowrap; box-shadow: inset 0 0 0 1px var(--edge, transparent); }
+#faceLogo { transform: rotateX(0deg) translateZ(26px); font-size: 34px; letter-spacing: 0; }
+#faceLogo span { flex: 1; display: flex; align-items: center; justify-content: center; } /* the same six slots as the letter boxes, so the swap can't be seen */
+#faceHey { transform: rotateX(90deg) translateZ(26px); background: var(--c1); }
+#faceSite { transform: rotateX(180deg) translateZ(26px); background: var(--c3); }
+#faceServe { transform: rotateX(270deg) translateZ(26px); background: var(--c5); font-size: 28px; letter-spacing: 1px; }
+#edisonO { flex: none; width: 32px; height: 32px; }
+.key { display: flex; align-items: center; justify-content: center; flex: none; padding: 0 30px; background: var(--c1); color: var(--ink); font-size: 30px; font-weight: 400; letter-spacing: 2px; transition: transform .1s ease-out; }
+.key.focus { background: var(--c1); transform: none; }
+#settingsKey { width: 64px; height: 52px; padding: 0; }
+#bottom > #fill { flex: 1; min-width: 0; justify-content: flex-start; gap: 6px; box-shadow: none; }
+#fill i { display: block; height: 52px; box-shadow: inset 0 0 0 1px var(--edge, transparent); }
+#fill i:nth-child(1) { flex: 1; background: var(--c2); }
+#fill i:nth-child(2) { width: 44px; background: var(--c5); }
+#fill i:nth-child(3) { width: 170px; background: var(--c3); }
+#fill i:nth-child(4) { width: 26px; background: var(--c1); }
+#fill i:nth-child(5) { width: 96px; background: var(--c2); }
+#name, #hiddenCount, #count { display: none !important; }
+#weather { flex: none; padding: 0 24px; background: var(--c5); font-size: 28px; letter-spacing: 2px; }
+#weather:empty { display: none !important; }
+#clock { flex: none; gap: 14px; padding: 0 30px; background: var(--c3); border-radius: 0 26px 26px 0; }
+#time { font-size: 36px; letter-spacing: 2px; }
+#date { font-size: 28px; letter-spacing: 2px; }
+#arrangeBar { z-index: 3; justify-content: space-between; padding-left: 26px; background: var(--deep); color: var(--bright); border-radius: 0 26px 26px 0; animation: fade .12s ease-out; }
+#arrangeHint { font-size: 28px; font-weight: 400; letter-spacing: 1px; white-space: nowrap; }
+#hideKey, #hideKey.focus { height: 52px; background: var(--c4); color: var(--ink); }
+
+/* settings */
+#scrim { position: absolute; inset: 0; z-index: 10; background: var(--scrim); animation: fade .14s ease-out; }
+#panel { position: absolute; z-index: 20; top: 44px; right: 36px; bottom: 44px; width: 1100px; padding: 34px 96px 34px 56px; display: flex; flex-direction: column; gap: 14px;
+  background: var(--panel); border-left: 12px solid var(--c3); border-radius: 0 0 0 58px; animation: slide .16s ease-out; }
+#panel h2 { margin: 0; font-size: 72px; line-height: 1.1; color: var(--bright); font-weight: 400; letter-spacing: 2px; }
+#panel h3 { margin: 10px 0 0; font-size: 36px; color: var(--c3); font-weight: 400; letter-spacing: 2px; }
+#restoreList { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 18px; margin: -6px -18px; }
+#restoreList:empty { display: none; }
+#noneHidden { flex: 1; color: var(--soft); }
+.row { flex: none; display: flex; justify-content: space-between; gap: 30px; align-items: center; height: 76px; padding: 0 34px; border-radius: 0 18px 18px 18px; background: var(--key); color: var(--text); font-size: 40px; scroll-margin: 18px; }
+.row .act { flex: none; color: var(--c3); }
+.row.focus .act { color: var(--bright); }
+.row .ttl { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#cityBox { flex: none; display: flex; flex-direction: column; gap: 10px; }
+#cityBox[hidden] { display: none; }
+#cityBox label { font-size: 28px; color: var(--c3); letter-spacing: 1px; }
+#cityInput { height: 72px; padding: 0 20px; border: 3px solid var(--c3); border-radius: 0 16px 16px 16px; background: var(--deep); color: var(--bright); font: inherit; font-size: 36px; letter-spacing: 1px; outline: none; }
+#keys { flex: none; display: flex; flex-wrap: wrap; gap: 10px; }
+#keys .key { height: 72px; border-radius: 0 16px 16px 16px; padding: 0 10px; letter-spacing: 1px; }
+#closeKey { width: 120px; }
+#voiceKey { width: 170px; }
+#iconsKey { width: 200px; }
+#paletteKey { flex: 1 1 380px !important; white-space: nowrap; }
+#layoutKey { flex: 1 1 300px !important; white-space: nowrap; }
+#backKey { flex: 1 1 300px !important; white-space: nowrap; }
+#diag { font-size: 30px; line-height: 1.25; font-weight: 400; color: var(--soft); text-transform: none; }
+#diag div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+#toast { position: absolute; z-index: 40; left: 300px; right: 300px; bottom: 150px; padding: 26px 40px; border-radius: 0 28px 28px 28px; background: var(--deep); color: var(--bright); font-size: 40px; font-weight: 400; text-align: center; animation: fade .12s ease-out; }
+
