@@ -1,6 +1,6 @@
-Edison Home has two parts with different terms.
+Jailbreak My TV has two parts with different terms.
 
-1. CODE: MIT License. This covers install.js and the code in app/ (app.js,
+1. CODE: MIT License. This covers install.js, the code in installer/ and the code in app/ (app.js,
 app.css, index.html and app/data/), except the files listed in part 2.
 
 Copyright (c) 2026 Marketing Savvy LLC

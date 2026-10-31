@@ -5,8 +5,9 @@ Copyright (c) 2026 Marketing Savvy LLC. All rights reserved for:
 - app/live-edison.js and app/edison-icon-live.js, which draw him
 - app/voice/ (his recorded lines)
 - app/backs/, app/icons/ and app/wallpaper-still.jpg (pictures and video)
+- installer/edison.ico and the icon inside Jailbreak My TV.exe
 
-You may install and run these as part of Edison Home on your own TV. If you
+You may install and run these as part of Jailbreak My TV on your own TV. If you
 build your own version from this code, replace them and give it your own name.
 
 Third parties
@@ -16,4 +17,5 @@ Third parties
 - Weather comes from Open-Meteo (open-meteo.com) when you turn it on.
 
 LG and webOS are trademarks of LG Electronics. App names on your TV belong to
-their owners. Edison Home is not made by or connected with LG or any of them.
+their owners. Jailbreak My TV and Edison Home are not made by or connected with
+LG or any of them.

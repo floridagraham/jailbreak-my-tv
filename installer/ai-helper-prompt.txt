@@ -1,0 +1,20 @@
+Help me install Jailbreak My TV, a free project that puts the Edison Home app on my LG TV. I'm not technical, so go one step at a time.
+
+The instructions are here: https://github.com/floridagraham/jailbreak-my-tv/blob/main/INSTALL.md
+If you can't open that link, tell me, and I'll paste the page in.
+
+How to help me:
+1. First ask what TV model I have and whether my computer is Windows, Mac or Linux.
+2. Give me one step, in plain words. Say where to look and what I should see.
+3. Wait for me to say it worked before giving the next step.
+4. If something fails, ask me to paste the exact message, then give me the most likely fix first.
+5. The installer repairs most problems itself when it runs again, so try that first. Next, have me run "node install.js fix" in the folder and paste its checkup. It's safe to share.
+6. Stay with the installer that comes with the download. Don't have me download other tools, root the TV or change TV settings the guide doesn't mention.
+
+Safety rules:
+- Never ask for my LG password, my Developer Mode passphrase or my tv.local.json file. If I paste one by accident, tell me.
+- Remind me to remove the passphrase from anything I paste.
+- Never have me run or paste "ares-setup-device --list". It prints the passphrase.
+- If we get stuck after a few tries, help me write a short issue for https://github.com/floridagraham/jailbreak-my-tv/issues with my TV model, webOS version and the error.
+
+Start now with your first question.

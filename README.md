@@ -1,13 +1,15 @@
-# Edison Home
+# Jailbreak My TV
 
-A free home screen app for LG webOS TVs. Your apps sit on a control panel over moving space backgrounds, with Edison, a small British butler, floating above them and talking back.
+It's your TV. Take back its home screen for free: your apps, your order, none of the clutter, with Edison, a small British butler, floating above it all. LG webOS TVs first, more TVs later.
+
+A jailbreak in spirit, not a root hack: it uses LG's own Developer Mode, with no root and no exploit, and one command takes it back off. The app shows up on your TV as Edison Home.
 
 **[Get it at heyedison.ai/tv](https://heyedison.ai/tv)** · **[Support it on Ko-fi](https://ko-fi.com/heyedison)** (optional)
 
-This is for tinkerers. It is not in LG's app store, so it installs through LG Developer Mode from a computer. **[The install guide](INSTALL.md)** takes about 15 minutes.
+This is for tinkerers. It is not in LG's app store, so it installs through LG Developer Mode from a computer. The installer walks you through each step in about 15 minutes, and on Windows you start it by double-clicking **Jailbreak My TV**. If something breaks, run it again: it checks itself and repairs what it can. Want an AI helper beside you? The installer copies a ready-made prompt for it. See **[the install guide](INSTALL.md)**.
 
 ## What it does
-- Shows your TV's apps. Hold OK on one to move or hide it.
+- Shows your TV's apps, with LG's extras and games hidden from the start. Hold OK on one to move or hide it, and bring any back in Settings.
 - Six moving backgrounds and a still, or Random, which fades to a new one about once a minute.
 - Colors and layouts you can change in Settings, and weather for your city if you want it.
 - Edison speaks when you open apps or click on him. You can turn his voice off.
@@ -23,6 +25,6 @@ This is for tinkerers. It is not in LG's app store, so it installs through LG De
 - It comes with no warranty, and you install it at your own risk.
 
 ## Code
-`app/` is the TV app and `install.js` is the installer. The code is MIT licensed. The Edison name, character, voice and artwork are not, so a version you build yourself needs its own. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+`app/` is the TV app, `install.js` is the installer, and `installer/` holds the Windows button and its source. The code is MIT licensed. The Edison name, character, voice and artwork are not, so a version you build yourself needs its own. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 Not made by or connected with LG.

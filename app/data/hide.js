@@ -1,5 +1,8 @@
-// Nothing is hidden and nothing is moved at first. Holding OK on an app arranges or hides it, and Settings brings it back.
-window.EDISON_HIDE = [];
+// These start hidden on a new install, so the first look is clean. Holding OK on an app arranges or hides it, and Settings brings any of them back.
+window.EDISON_HIDE = [
+  'ShopTime', 'LG Streaming Week', 'LG Radio+', 'LG Travel+', 'LG Sports Playbook', 'LG Gallery+', 'LG Gaming Portal', '8 Ball Pool',
+  'Weekend Games - Song Quiz, Jeopardy! and CoComelon', 'Copilot', 'Sports', 'Home Hub', 'Camera', 'Media Player', 'Amazon Alexa'
+];
 window.EDISON_FIRST = [];
 // One color per group: well-known streaming, other streaming, live and LG, and tools. Anything else gets its own color.
 window.EDISON_GROUPS = {
