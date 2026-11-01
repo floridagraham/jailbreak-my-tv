@@ -10,6 +10,7 @@ This is for tinkerers. It is not in LG's app store, so it installs through LG De
 
 ## What it does
 - Shows your TV's apps, with LG's extras and games hidden from the start. Hold OK on one to move or hide it, and bring any back in Settings.
+- Gives each app a one-color icon, made during install from the icon already on your TV. No logos come with the download. Any app whose icon can't be used shows its first letter.
 - Six moving backgrounds and a still, or Random, which fades to a new one about once a minute.
 - Colors and layouts you can change in Settings, and weather for your city if you want it.
 - Edison speaks when you open apps or click on him. You can turn his voice off.

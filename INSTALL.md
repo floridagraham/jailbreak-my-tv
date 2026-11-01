@@ -54,7 +54,7 @@ Start now with your first question.
 
 ## Keeping it running
 - **Extend Developer Mode before it runs out.** Open the Developer Mode app and press Extend. If the timer runs out, the TV removes the app on its next restart, and you'd need to install again.
-- **Got a new app on your TV?** Run `node install.js` again.
+- **Got a new app on your TV?** Run `node install.js` again. That also picks up its icon. An app whose icon can't be used shows its first letter.
 
 ## Removing it
 

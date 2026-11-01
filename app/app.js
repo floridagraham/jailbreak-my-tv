@@ -354,7 +354,7 @@
       'Wallpaper video: ' + diag.wall + (diag.wallLog ? '. Last: ' + diag.wallLog : ''),
       'Weather: ' + diag.weather + ', voice: ' + diag.voice,
       'Live Edison: ' + diag.live,
-      'Screen ' + window.innerWidth + 'x' + window.innerHeight + ', Chromium ' + (ua ? ua[1] : 'unknown') + ', app 1.0.0'
+      'Screen ' + window.innerWidth + 'x' + window.innerHeight + ', Chromium ' + (ua ? ua[1] : 'unknown') + ', app 1.2.0'
     ];
     $('diag').replaceChildren(...lines.map((t) => {
       const d = document.createElement('div');

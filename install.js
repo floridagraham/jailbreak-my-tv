@@ -10,6 +10,7 @@ const net = require('net');
 const path = require('path');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
+const { addIcons } = require('./installer/app-icons');
 
 const ID = 'com.heyedison.home', NODE_MIN = 22, DEVICE = 'edison-home-tv';
 const ROOT = __dirname, BUILD = path.join(ROOT, 'build'), SAVED = path.join(ROOT, 'tv.local.json');
@@ -268,6 +269,8 @@ async function main() {
   step('Build and install', ['This takes about half a minute. Leave the TV on.', '']);
   fs.rmSync(BUILD, { recursive: true, force: true });
   fs.cpSync(path.join(ROOT, 'app'), path.join(BUILD, 'app'), { recursive: true });
+  const icons = await addIcons(apps, launchPoints, saved.host, path.join(BUILD, 'app')).catch(() => 0); // icons are a nicety, so trouble here never stops the install
+  console.log('Got icons for ' + icons + ' of ' + apps.length + ' apps from your TV. Any others show their first letter.');
   fs.writeFileSync(path.join(BUILD, 'app', 'data', 'apps.js'), 'window.EDISON_APPS = ' + JSON.stringify({ syncedAt: new Date().toISOString(), placeholder: false, apps }, null, 2) + ';\n');
   ares('ares-package', ['--no-minify', '-o', path.join(BUILD, 'dist'), path.join(BUILD, 'app')], { quiet: true });
   const ipk = fs.readdirSync(path.join(BUILD, 'dist')).find((f) => f.endsWith('.ipk'));

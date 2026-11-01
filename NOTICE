@@ -16,6 +16,7 @@ Third parties
 - three.js (MIT) was used to render the backgrounds; it is not part of the app.
 - Weather comes from Open-Meteo (open-meteo.com) when you turn it on.
 
-LG and webOS are trademarks of LG Electronics. App names on your TV belong to
-their owners. Jailbreak My TV and Edison Home are not made by or connected with
+LG and webOS are trademarks of LG Electronics. App names on your TV, and the app icons
+the installer reads from your own TV, belong to their owners. No app logos ship with this
+project. Jailbreak My TV and Edison Home are not made by or connected with
 LG or any of them.
